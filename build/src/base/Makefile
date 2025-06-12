@@ -143,6 +143,20 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+src/base/CMakeFiles/base.dir/rule:
+	cd /work/build && $(MAKE) -f CMakeFiles/Makefile2 src/base/CMakeFiles/base.dir/rule
+.PHONY : src/base/CMakeFiles/base.dir/rule
+
+# Convenience name for target.
+base: src/base/CMakeFiles/base.dir/rule
+.PHONY : base
+
+# fast build rule for target.
+base/fast:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/build
+.PHONY : base/fast
+
+# Convenience name for target.
 src/base/CMakeFiles/base_test.dir/rule:
 	cd /work/build && $(MAKE) -f CMakeFiles/Makefile2 src/base/CMakeFiles/base_test.dir/rule
 .PHONY : src/base/CMakeFiles/base_test.dir/rule
@@ -161,6 +175,7 @@ StringUtils.o: StringUtils.cpp.o
 
 # target to build an object file
 StringUtils.cpp.o:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/StringUtils.cpp.o
 	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/StringUtils.cpp.o
 .PHONY : StringUtils.cpp.o
 
@@ -169,6 +184,7 @@ StringUtils.i: StringUtils.cpp.i
 
 # target to preprocess a source file
 StringUtils.cpp.i:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/StringUtils.cpp.i
 	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/StringUtils.cpp.i
 .PHONY : StringUtils.cpp.i
 
@@ -177,6 +193,7 @@ StringUtils.s: StringUtils.cpp.s
 
 # target to generate assembly for a file
 StringUtils.cpp.s:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/StringUtils.cpp.s
 	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/StringUtils.cpp.s
 .PHONY : StringUtils.cpp.s
 
@@ -185,6 +202,7 @@ TTime.o: TTime.cpp.o
 
 # target to build an object file
 TTime.cpp.o:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/TTime.cpp.o
 	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/TTime.cpp.o
 .PHONY : TTime.cpp.o
 
@@ -193,6 +211,7 @@ TTime.i: TTime.cpp.i
 
 # target to preprocess a source file
 TTime.cpp.i:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/TTime.cpp.i
 	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/TTime.cpp.i
 .PHONY : TTime.cpp.i
 
@@ -201,6 +220,7 @@ TTime.s: TTime.cpp.s
 
 # target to generate assembly for a file
 TTime.cpp.s:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/TTime.cpp.s
 	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/TTime.cpp.s
 .PHONY : TTime.cpp.s
 
@@ -209,6 +229,7 @@ TestSingleton.o: TestSingleton.cpp.o
 
 # target to build an object file
 TestSingleton.cpp.o:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/TestSingleton.cpp.o
 	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/TestSingleton.cpp.o
 .PHONY : TestSingleton.cpp.o
 
@@ -217,6 +238,7 @@ TestSingleton.i: TestSingleton.cpp.i
 
 # target to preprocess a source file
 TestSingleton.cpp.i:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/TestSingleton.cpp.i
 	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/TestSingleton.cpp.i
 .PHONY : TestSingleton.cpp.i
 
@@ -225,6 +247,7 @@ TestSingleton.s: TestSingleton.cpp.s
 
 # target to generate assembly for a file
 TestSingleton.cpp.s:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/TestSingleton.cpp.s
 	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/TestSingleton.cpp.s
 .PHONY : TestSingleton.cpp.s
 
@@ -234,6 +257,7 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... base"
 	@echo "... base_test"
 	@echo "... edit_cache"
 	@echo "... install"
