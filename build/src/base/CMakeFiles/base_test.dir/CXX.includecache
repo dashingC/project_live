@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/work/src/base/NonCopyable.h
+
+/work/src/base/Singleton.h
+NonCopyable.h
+/work/src/base/NonCopyable.h
+pthread.h
+-
+
+/work/src/base/TestSingleton.cpp
+Singleton.h
+/work/src/base/Singleton.h
+iostream
+-
+
