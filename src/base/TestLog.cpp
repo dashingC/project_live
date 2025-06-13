@@ -29,7 +29,7 @@ int main()
     FileLogPtr log = sFileMgr->GetFileLog("test.log");
     log->SetRotate(kRotateMinute);
 
-    tmms::base::g_logger = new Logger(1og);
+    tmms::base::g_logger = new Logger(log);
 
     tmms::base::g_logger->SetLogLevel(kWarn);
 

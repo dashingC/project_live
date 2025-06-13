@@ -4,6 +4,8 @@ SET(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 SET(CMAKE_DEPENDS_CHECK_CXX
+  "/work/src/base/FileLog.cpp" "/work/build/src/base/CMakeFiles/base_test.dir/FileLog.cpp.o"
+  "/work/src/base/FileMgr.cpp" "/work/build/src/base/CMakeFiles/base_test.dir/FileMgr.cpp.o"
   "/work/src/base/LogStream.cpp" "/work/build/src/base/CMakeFiles/base_test.dir/LogStream.cpp.o"
   "/work/src/base/Logger.cpp" "/work/build/src/base/CMakeFiles/base_test.dir/Logger.cpp.o"
   "/work/src/base/StringUtils.cpp" "/work/build/src/base/CMakeFiles/base_test.dir/StringUtils.cpp.o"

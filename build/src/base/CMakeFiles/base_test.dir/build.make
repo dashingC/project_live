@@ -259,6 +259,52 @@ src/base/CMakeFiles/base_test.dir/TestLog.cpp.o.provides: src/base/CMakeFiles/ba
 
 src/base/CMakeFiles/base_test.dir/TestLog.cpp.o.provides.build: src/base/CMakeFiles/base_test.dir/TestLog.cpp.o
 
+src/base/CMakeFiles/base_test.dir/FileLog.cpp.o: src/base/CMakeFiles/base_test.dir/flags.make
+src/base/CMakeFiles/base_test.dir/FileLog.cpp.o: ../src/base/FileLog.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /work/build/CMakeFiles $(CMAKE_PROGRESS_10)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/base/CMakeFiles/base_test.dir/FileLog.cpp.o"
+	cd /work/build/src/base && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/base_test.dir/FileLog.cpp.o -c /work/src/base/FileLog.cpp
+
+src/base/CMakeFiles/base_test.dir/FileLog.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/base_test.dir/FileLog.cpp.i"
+	cd /work/build/src/base && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /work/src/base/FileLog.cpp > CMakeFiles/base_test.dir/FileLog.cpp.i
+
+src/base/CMakeFiles/base_test.dir/FileLog.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/base_test.dir/FileLog.cpp.s"
+	cd /work/build/src/base && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /work/src/base/FileLog.cpp -o CMakeFiles/base_test.dir/FileLog.cpp.s
+
+src/base/CMakeFiles/base_test.dir/FileLog.cpp.o.requires:
+.PHONY : src/base/CMakeFiles/base_test.dir/FileLog.cpp.o.requires
+
+src/base/CMakeFiles/base_test.dir/FileLog.cpp.o.provides: src/base/CMakeFiles/base_test.dir/FileLog.cpp.o.requires
+	$(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/FileLog.cpp.o.provides.build
+.PHONY : src/base/CMakeFiles/base_test.dir/FileLog.cpp.o.provides
+
+src/base/CMakeFiles/base_test.dir/FileLog.cpp.o.provides.build: src/base/CMakeFiles/base_test.dir/FileLog.cpp.o
+
+src/base/CMakeFiles/base_test.dir/FileMgr.cpp.o: src/base/CMakeFiles/base_test.dir/flags.make
+src/base/CMakeFiles/base_test.dir/FileMgr.cpp.o: ../src/base/FileMgr.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /work/build/CMakeFiles $(CMAKE_PROGRESS_11)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/base/CMakeFiles/base_test.dir/FileMgr.cpp.o"
+	cd /work/build/src/base && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/base_test.dir/FileMgr.cpp.o -c /work/src/base/FileMgr.cpp
+
+src/base/CMakeFiles/base_test.dir/FileMgr.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/base_test.dir/FileMgr.cpp.i"
+	cd /work/build/src/base && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /work/src/base/FileMgr.cpp > CMakeFiles/base_test.dir/FileMgr.cpp.i
+
+src/base/CMakeFiles/base_test.dir/FileMgr.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/base_test.dir/FileMgr.cpp.s"
+	cd /work/build/src/base && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /work/src/base/FileMgr.cpp -o CMakeFiles/base_test.dir/FileMgr.cpp.s
+
+src/base/CMakeFiles/base_test.dir/FileMgr.cpp.o.requires:
+.PHONY : src/base/CMakeFiles/base_test.dir/FileMgr.cpp.o.requires
+
+src/base/CMakeFiles/base_test.dir/FileMgr.cpp.o.provides: src/base/CMakeFiles/base_test.dir/FileMgr.cpp.o.requires
+	$(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/FileMgr.cpp.o.provides.build
+.PHONY : src/base/CMakeFiles/base_test.dir/FileMgr.cpp.o.provides
+
+src/base/CMakeFiles/base_test.dir/FileMgr.cpp.o.provides.build: src/base/CMakeFiles/base_test.dir/FileMgr.cpp.o
+
 # Object files for target base_test
 base_test_OBJECTS = \
 "CMakeFiles/base_test.dir/TTime.cpp.o" \
@@ -269,7 +315,9 @@ base_test_OBJECTS = \
 "CMakeFiles/base_test.dir/TestTask.cpp.o" \
 "CMakeFiles/base_test.dir/Logger.cpp.o" \
 "CMakeFiles/base_test.dir/LogStream.cpp.o" \
-"CMakeFiles/base_test.dir/TestLog.cpp.o"
+"CMakeFiles/base_test.dir/TestLog.cpp.o" \
+"CMakeFiles/base_test.dir/FileLog.cpp.o" \
+"CMakeFiles/base_test.dir/FileMgr.cpp.o"
 
 # External object files for target base_test
 base_test_EXTERNAL_OBJECTS =
@@ -283,6 +331,8 @@ src/base/base_test: src/base/CMakeFiles/base_test.dir/TestTask.cpp.o
 src/base/base_test: src/base/CMakeFiles/base_test.dir/Logger.cpp.o
 src/base/base_test: src/base/CMakeFiles/base_test.dir/LogStream.cpp.o
 src/base/base_test: src/base/CMakeFiles/base_test.dir/TestLog.cpp.o
+src/base/base_test: src/base/CMakeFiles/base_test.dir/FileLog.cpp.o
+src/base/base_test: src/base/CMakeFiles/base_test.dir/FileMgr.cpp.o
 src/base/base_test: src/base/CMakeFiles/base_test.dir/build.make
 src/base/base_test: src/base/CMakeFiles/base_test.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX executable base_test"
@@ -301,6 +351,8 @@ src/base/CMakeFiles/base_test.dir/requires: src/base/CMakeFiles/base_test.dir/Te
 src/base/CMakeFiles/base_test.dir/requires: src/base/CMakeFiles/base_test.dir/Logger.cpp.o.requires
 src/base/CMakeFiles/base_test.dir/requires: src/base/CMakeFiles/base_test.dir/LogStream.cpp.o.requires
 src/base/CMakeFiles/base_test.dir/requires: src/base/CMakeFiles/base_test.dir/TestLog.cpp.o.requires
+src/base/CMakeFiles/base_test.dir/requires: src/base/CMakeFiles/base_test.dir/FileLog.cpp.o.requires
+src/base/CMakeFiles/base_test.dir/requires: src/base/CMakeFiles/base_test.dir/FileMgr.cpp.o.requires
 .PHONY : src/base/CMakeFiles/base_test.dir/requires
 
 src/base/CMakeFiles/base_test.dir/clean:

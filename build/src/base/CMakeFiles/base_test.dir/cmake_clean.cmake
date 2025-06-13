@@ -8,6 +8,8 @@ FILE(REMOVE_RECURSE
   "CMakeFiles/base_test.dir/Logger.cpp.o"
   "CMakeFiles/base_test.dir/LogStream.cpp.o"
   "CMakeFiles/base_test.dir/TestLog.cpp.o"
+  "CMakeFiles/base_test.dir/FileLog.cpp.o"
+  "CMakeFiles/base_test.dir/FileMgr.cpp.o"
   "base_test.pdb"
   "base_test"
 )

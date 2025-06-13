@@ -170,6 +170,60 @@ base_test/fast:
 	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/build
 .PHONY : base_test/fast
 
+FileLog.o: FileLog.cpp.o
+.PHONY : FileLog.o
+
+# target to build an object file
+FileLog.cpp.o:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/FileLog.cpp.o
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/FileLog.cpp.o
+.PHONY : FileLog.cpp.o
+
+FileLog.i: FileLog.cpp.i
+.PHONY : FileLog.i
+
+# target to preprocess a source file
+FileLog.cpp.i:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/FileLog.cpp.i
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/FileLog.cpp.i
+.PHONY : FileLog.cpp.i
+
+FileLog.s: FileLog.cpp.s
+.PHONY : FileLog.s
+
+# target to generate assembly for a file
+FileLog.cpp.s:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/FileLog.cpp.s
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/FileLog.cpp.s
+.PHONY : FileLog.cpp.s
+
+FileMgr.o: FileMgr.cpp.o
+.PHONY : FileMgr.o
+
+# target to build an object file
+FileMgr.cpp.o:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/FileMgr.cpp.o
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/FileMgr.cpp.o
+.PHONY : FileMgr.cpp.o
+
+FileMgr.i: FileMgr.cpp.i
+.PHONY : FileMgr.i
+
+# target to preprocess a source file
+FileMgr.cpp.i:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/FileMgr.cpp.i
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/FileMgr.cpp.i
+.PHONY : FileMgr.cpp.i
+
+FileMgr.s: FileMgr.cpp.s
+.PHONY : FileMgr.s
+
+# target to generate assembly for a file
+FileMgr.cpp.s:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/FileMgr.cpp.s
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/FileMgr.cpp.s
+.PHONY : FileMgr.cpp.s
+
 LogStream.o: LogStream.cpp.o
 .PHONY : LogStream.o
 
@@ -427,6 +481,12 @@ help:
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
+	@echo "... FileLog.o"
+	@echo "... FileLog.i"
+	@echo "... FileLog.s"
+	@echo "... FileMgr.o"
+	@echo "... FileMgr.i"
+	@echo "... FileMgr.s"
 	@echo "... LogStream.o"
 	@echo "... LogStream.i"
 	@echo "... LogStream.s"
