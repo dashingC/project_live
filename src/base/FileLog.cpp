@@ -31,6 +31,13 @@ void FileLog::Rotate(const std::string &file) // 切分日志文件
     {
         return;
     }
+    int ret = ::rename(file_path_.c_str(), file.c_str());
+    if (ret!=0)
+    {
+        std::cerr << " rename file failed,old path:" << file_path_ << ",new path:" << file << std::endl;
+        return;
+    }
+    
     int fd = ::open(file_path_.c_str(), O_WRONLY | O_CREAT | O_APPEND, DEFFILEMODE);
     if (fd < 0)
     {

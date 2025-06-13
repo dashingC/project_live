@@ -1,5 +1,5 @@
-#include "Logger.h"
-#include "LogStream.h"
+#include "base/Logger.h"
+#include "base/LogStream.h"
 #include "FileLog.h"
 #include "FileMgr.h"
 #include "TTime.h"
@@ -16,11 +16,11 @@ void TestLog()
                     {
                         while (true)
                         {
-                            LOG_TRACE << "This is a trace log message.  now:" << TTime::NowMS();
+                            // LOG_TRACE << "This is a trace log message.  now:" << TTime::NowMS();
                             LOG_DEBUG << "This is a debug log message.  now:" << TTime::NowMS();
                             LOG_INFO << "This is an info log message.   now:" << TTime::NowMS();
-                            LOG_WARN << "This is a warning log message. now:" << TTime::NowMS();
-                            LOG_ERROR << "This is an error log message. now:" << TTime::NowMS();
+                            // LOG_WARN << "This is a warning log message. now:" << TTime::NowMS();
+                            // LOG_ERROR << "This is an error log message. now:" << TTime::NowMS();
                             std::this_thread::sleep_for(std::chrono::milliseconds(500));
                         } });
 }
@@ -28,15 +28,17 @@ int main()
 {
     FileLogPtr log = sFileMgr->GetFileLog("test.log");
     log->SetRotate(kRotateMinute);
+
     tmms::base::g_logger = new Logger(1og);
+
     tmms::base::g_logger->SetLogLevel(kWarn);
 
     TaskPtr task4 = std::make_shared<Task>([](const TaskPtr &task)
                                            {
-                                            std::cout << "Task 4 interval: " << 30000 <<"now:"<<TTime::NowMS()<< std::endl;
+                                            sFileMgr->OnCheck();
                                             task->Restart();
                                             }, 
-                                            3000);
+                                            1000);
     TestLog();
     return 0;
 }
