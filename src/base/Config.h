@@ -25,7 +25,7 @@ namespace tmms
             ~Config() = default;
 
             bool LoadConfig(const std::string &file);
-            bool ParseLogInfo(const Json::Value &root);
+            
             LogInfoPtr &GetLogInfo();
 
             std::string name_;
@@ -34,6 +34,8 @@ namespace tmms
 
             private:
             LogInfoPtr log_info_;
+            bool ParseLogInfo(const Json::Value &root);
+
 
         };
     }
