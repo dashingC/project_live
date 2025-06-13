@@ -15,7 +15,7 @@ namespace tmms
 
             static T *&Instance()
             {
-                pthread_once(&ponce_, &Singleton<T>::init);
+                pthread_once(&ponce_, &Singleton<T>::init);// 确保初始化函数只被调用一次
                 return value_;
             }
 

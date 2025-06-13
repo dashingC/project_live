@@ -21,7 +21,8 @@ const char *log_stream[] = {
  LogStream::LogStream(Logger *logger, const char *file, int line, LogLevel l, const char *func)
  : logger_(logger) 
  {
-    const char *filename = strrchr(file, '/');
+    //提取文件名
+    const char *filename = strrchr(file, '/');//从完整文件路径中找到最后一个 /
     if (filename == nullptr)
     {
         filename = file; // 说明没有找到 '/', 使用整个文件名
@@ -53,10 +54,3 @@ LogStream::~LogStream()
     }
 
 }
-
-//这个函数的作用是将传入的值转换为字符串并添加到日志流中，返回的值是当前日志流对象的引用，以便可以链式调用。
-// template <typename T> LogStream & LogStream::operator<<(const T &value)
-// { 
-//     stream_ << value;
-//     return *this;
-// }

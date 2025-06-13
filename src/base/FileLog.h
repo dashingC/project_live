@@ -19,13 +19,13 @@ namespace tmms
             FileLog()= default;
             ~FileLog() = default;
 
-            bool Open(const std::string &filePath);
-            size_t WriteLog(const std::string &msg);
-            void Rotate(const std::string &file);
-            void SetRotate(RotateType type);
-            RotateType GetRotateType() const;
-            int64_t Filesize() const;
-            std::string FilePath() const;
+            bool Open(const std::string &filePath);// 打开日志文件
+            size_t WriteLog(const std::string &msg);// 写入日志
+            void Rotate(const std::string &file);// 切分日志文件
+            void SetRotate(RotateType type);// 设置切分类型
+            RotateType GetRotateType() const;// 获取当前的切分类型
+            int64_t Filesize() const;// 获取文件大小
+            std::string FilePath() const;// 返回文件路径
 
             private:
             int fd_{-1};
@@ -34,6 +34,8 @@ namespace tmms
 
         };
         using FileLogPtr = std::shared_ptr<FileLog>;
+        //这是 C++11 引入的为类型创建别名的新语法，功能上类似于旧式的 typedef。它让代码更易读。
+        // 意思是：”在我的程序里，请把 FileLogPtr 这个名字当作 std::shared_ptr<FileLog> 的同义词来使用
 
     }
 }

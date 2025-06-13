@@ -9,7 +9,7 @@ namespace
     static tmms::base::FileLogPtr file_log_nullptr;
 }
 
-// 检测是否跨天或跨小时
+// 检测是否跨天或跨小时或者跨分钟
 void FileMgr::OnCheck()
 {
     bool day_change{false};
@@ -59,22 +59,25 @@ void FileMgr::OnCheck()
     last_month_ = month;
     last_year_ = year;
 }
-FileLogPtr FileMgr::GetFileLog(const std::string &file_name)
+FileLogPtr FileMgr::GetFileLog(const std::string &file_name)// 获取文件日志对象，如果不存在则创建一个新的
 {
     std::lock_guard<std::mutex> lk(lock_);
     auto iter = logs_.find(file_name);
     if (iter != logs_.end())
     {
-        return iter->second;
+        return iter->second;// 如果日志已存在，则直接返回iter的第二个值，即FileLogPtr对象
     }
 
     // 如果日志不存在，则创建一个新的日志对象
+    //语法详细解释：
+    // 基本语法是 std::make_shared<要创建的类型>(给构造函数的参数...)
+    // 在 std::make_shared<FileLog>() 中，跟在类型后面的括号 () 就是用来传递参数给 FileLog 类的构造函数的
     FileLogPtr log = std::make_shared<FileLog>();
     if (!log->Open(file_name))
     {
         return file_log_nullptr; // 打开日志文件失败
     }
-    logs_.emplace(file_name, log);
+    logs_.emplace(file_name, log);// 将新创建的日志对象插入到logs_哈希表中，键为file_name，值为log
     return log;
 }
 void FileMgr::RemoveFileLog(const FileLogPtr &log)

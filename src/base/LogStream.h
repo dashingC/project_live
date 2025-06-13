@@ -40,3 +40,5 @@ namespace tmms
 #define LOG_ERROR \
     tmms::base::LogStream(tmms::base::g_logger, __FILE__, __LINE__, tmms::base::kError)
 // 这个宏定义用于在日志流中添加一个值，并返回当前日志流对象的引用，以便可以链式调用。
+//__func__是一个编译器在编译时会自动替换的变量。它会被替换成一个包含当前函数名称的字符串。
+//例如，如果在 int main() 函数中使用了 __func__，它的值就是 "main"
