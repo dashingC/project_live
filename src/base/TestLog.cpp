@@ -35,7 +35,7 @@ int main()
     //不关心“如何写”：它自己不执行任何文件 I/O 操作。当它决定要记录一条消息时，它会把自己持有的 FileLog 对象（就是那支“钢笔”）拿出来，
     //然后调用 log_->WriteLog(msg) 把任务交给 FileLog 去完成。
 
-    tmms::base::g_logger->SetLogLevel(kError);
+    tmms::base::g_logger->SetLogLevel(kTrace);
 
     //创建一个名为 task4 的智能任务对象，这个任务被设定为每隔 1000 毫秒执行一次。
     //每次执行时，它会调用 sFileMgr->OnCheck() 来检查日志是否需要切分，然后立即将自己重置，准备在 1000 毫秒后再次执行。
@@ -46,6 +46,11 @@ int main()
                                             }, 
                                             1000);
     TestLog();
+    while(true)
+    {
+        STaskMgr->OnWork();
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    }
     return 0;
 }
 

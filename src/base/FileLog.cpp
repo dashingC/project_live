@@ -17,6 +17,7 @@ bool FileLog::Open(const std::string &filePath)
         return false; // 打开文件失败
     }
     fd_ = fd; // 保存文件描述符
+    return true;
 }
 
 size_t FileLog::WriteLog(const std::string &msg) // 写入日志
