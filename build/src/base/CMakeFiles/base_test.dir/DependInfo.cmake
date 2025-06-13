@@ -4,9 +4,15 @@ SET(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 SET(CMAKE_DEPENDS_CHECK_CXX
+  "/work/src/base/LogStream.cpp" "/work/build/src/base/CMakeFiles/base_test.dir/LogStream.cpp.o"
+  "/work/src/base/Logger.cpp" "/work/build/src/base/CMakeFiles/base_test.dir/Logger.cpp.o"
   "/work/src/base/StringUtils.cpp" "/work/build/src/base/CMakeFiles/base_test.dir/StringUtils.cpp.o"
   "/work/src/base/TTime.cpp" "/work/build/src/base/CMakeFiles/base_test.dir/TTime.cpp.o"
+  "/work/src/base/Task.cpp" "/work/build/src/base/CMakeFiles/base_test.dir/Task.cpp.o"
+  "/work/src/base/TaskMgr.cpp" "/work/build/src/base/CMakeFiles/base_test.dir/TaskMgr.cpp.o"
+  "/work/src/base/TestLog.cpp" "/work/build/src/base/CMakeFiles/base_test.dir/TestLog.cpp.o"
   "/work/src/base/TestSingleton.cpp" "/work/build/src/base/CMakeFiles/base_test.dir/TestSingleton.cpp.o"
+  "/work/src/base/TestTask.cpp" "/work/build/src/base/CMakeFiles/base_test.dir/TestTask.cpp.o"
   )
 SET(CMAKE_CXX_COMPILER_ID "GNU")
 

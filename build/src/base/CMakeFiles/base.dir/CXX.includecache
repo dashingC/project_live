@@ -6,17 +6,23 @@
 
 #IncludeRegexTransform: 
 
-/work/src/base/NonCopyable.h
+/work/src/base/LogStream.h
+Logger.h
+/work/src/base/Logger.h
+sstream
+-
 
-/work/src/base/Singleton.h
+/work/src/base/Logger.h
 NonCopyable.h
 /work/src/base/NonCopyable.h
-pthread.h
+string
 -
 
-/work/src/base/TestSingleton.cpp
-Singleton.h
-/work/src/base/Singleton.h
-iostream
--
+/work/src/base/NonCopyable.h
+
+/work/src/base/TestLog.cpp
+Logger.h
+/work/src/base/Logger.h
+LogStream.h
+/work/src/base/LogStream.h
 

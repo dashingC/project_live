@@ -1,0 +1,3 @@
+/work/build/src/base/CMakeFiles/base.dir
+/work/build/src/base/CMakeFiles/base_test.dir
+/work/build/src/main/CMakeFiles/tmms.dir

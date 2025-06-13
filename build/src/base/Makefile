@@ -170,6 +170,60 @@ base_test/fast:
 	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/build
 .PHONY : base_test/fast
 
+LogStream.o: LogStream.cpp.o
+.PHONY : LogStream.o
+
+# target to build an object file
+LogStream.cpp.o:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/LogStream.cpp.o
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/LogStream.cpp.o
+.PHONY : LogStream.cpp.o
+
+LogStream.i: LogStream.cpp.i
+.PHONY : LogStream.i
+
+# target to preprocess a source file
+LogStream.cpp.i:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/LogStream.cpp.i
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/LogStream.cpp.i
+.PHONY : LogStream.cpp.i
+
+LogStream.s: LogStream.cpp.s
+.PHONY : LogStream.s
+
+# target to generate assembly for a file
+LogStream.cpp.s:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/LogStream.cpp.s
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/LogStream.cpp.s
+.PHONY : LogStream.cpp.s
+
+Logger.o: Logger.cpp.o
+.PHONY : Logger.o
+
+# target to build an object file
+Logger.cpp.o:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/Logger.cpp.o
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/Logger.cpp.o
+.PHONY : Logger.cpp.o
+
+Logger.i: Logger.cpp.i
+.PHONY : Logger.i
+
+# target to preprocess a source file
+Logger.cpp.i:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/Logger.cpp.i
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/Logger.cpp.i
+.PHONY : Logger.cpp.i
+
+Logger.s: Logger.cpp.s
+.PHONY : Logger.s
+
+# target to generate assembly for a file
+Logger.cpp.s:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/Logger.cpp.s
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/Logger.cpp.s
+.PHONY : Logger.cpp.s
+
 StringUtils.o: StringUtils.cpp.o
 .PHONY : StringUtils.o
 
@@ -224,6 +278,87 @@ TTime.cpp.s:
 	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/TTime.cpp.s
 .PHONY : TTime.cpp.s
 
+Task.o: Task.cpp.o
+.PHONY : Task.o
+
+# target to build an object file
+Task.cpp.o:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/Task.cpp.o
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/Task.cpp.o
+.PHONY : Task.cpp.o
+
+Task.i: Task.cpp.i
+.PHONY : Task.i
+
+# target to preprocess a source file
+Task.cpp.i:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/Task.cpp.i
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/Task.cpp.i
+.PHONY : Task.cpp.i
+
+Task.s: Task.cpp.s
+.PHONY : Task.s
+
+# target to generate assembly for a file
+Task.cpp.s:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/Task.cpp.s
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/Task.cpp.s
+.PHONY : Task.cpp.s
+
+TaskMgr.o: TaskMgr.cpp.o
+.PHONY : TaskMgr.o
+
+# target to build an object file
+TaskMgr.cpp.o:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/TaskMgr.cpp.o
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/TaskMgr.cpp.o
+.PHONY : TaskMgr.cpp.o
+
+TaskMgr.i: TaskMgr.cpp.i
+.PHONY : TaskMgr.i
+
+# target to preprocess a source file
+TaskMgr.cpp.i:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/TaskMgr.cpp.i
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/TaskMgr.cpp.i
+.PHONY : TaskMgr.cpp.i
+
+TaskMgr.s: TaskMgr.cpp.s
+.PHONY : TaskMgr.s
+
+# target to generate assembly for a file
+TaskMgr.cpp.s:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/TaskMgr.cpp.s
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/TaskMgr.cpp.s
+.PHONY : TaskMgr.cpp.s
+
+TestLog.o: TestLog.cpp.o
+.PHONY : TestLog.o
+
+# target to build an object file
+TestLog.cpp.o:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/TestLog.cpp.o
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/TestLog.cpp.o
+.PHONY : TestLog.cpp.o
+
+TestLog.i: TestLog.cpp.i
+.PHONY : TestLog.i
+
+# target to preprocess a source file
+TestLog.cpp.i:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/TestLog.cpp.i
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/TestLog.cpp.i
+.PHONY : TestLog.cpp.i
+
+TestLog.s: TestLog.cpp.s
+.PHONY : TestLog.s
+
+# target to generate assembly for a file
+TestLog.cpp.s:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/TestLog.cpp.s
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/TestLog.cpp.s
+.PHONY : TestLog.cpp.s
+
 TestSingleton.o: TestSingleton.cpp.o
 .PHONY : TestSingleton.o
 
@@ -251,6 +386,33 @@ TestSingleton.cpp.s:
 	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/TestSingleton.cpp.s
 .PHONY : TestSingleton.cpp.s
 
+TestTask.o: TestTask.cpp.o
+.PHONY : TestTask.o
+
+# target to build an object file
+TestTask.cpp.o:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/TestTask.cpp.o
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/TestTask.cpp.o
+.PHONY : TestTask.cpp.o
+
+TestTask.i: TestTask.cpp.i
+.PHONY : TestTask.i
+
+# target to preprocess a source file
+TestTask.cpp.i:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/TestTask.cpp.i
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/TestTask.cpp.i
+.PHONY : TestTask.cpp.i
+
+TestTask.s: TestTask.cpp.s
+.PHONY : TestTask.s
+
+# target to generate assembly for a file
+TestTask.cpp.s:
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base.dir/build.make src/base/CMakeFiles/base.dir/TestTask.cpp.s
+	cd /work/build && $(MAKE) -f src/base/CMakeFiles/base_test.dir/build.make src/base/CMakeFiles/base_test.dir/TestTask.cpp.s
+.PHONY : TestTask.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -265,15 +427,33 @@ help:
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
+	@echo "... LogStream.o"
+	@echo "... LogStream.i"
+	@echo "... LogStream.s"
+	@echo "... Logger.o"
+	@echo "... Logger.i"
+	@echo "... Logger.s"
 	@echo "... StringUtils.o"
 	@echo "... StringUtils.i"
 	@echo "... StringUtils.s"
 	@echo "... TTime.o"
 	@echo "... TTime.i"
 	@echo "... TTime.s"
+	@echo "... Task.o"
+	@echo "... Task.i"
+	@echo "... Task.s"
+	@echo "... TaskMgr.o"
+	@echo "... TaskMgr.i"
+	@echo "... TaskMgr.s"
+	@echo "... TestLog.o"
+	@echo "... TestLog.i"
+	@echo "... TestLog.s"
 	@echo "... TestSingleton.o"
 	@echo "... TestSingleton.i"
 	@echo "... TestSingleton.s"
+	@echo "... TestTask.o"
+	@echo "... TestTask.i"
+	@echo "... TestTask.s"
 .PHONY : help
 
 
