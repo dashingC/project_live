@@ -48,7 +48,7 @@ int main()
     TestLog();
     while(true)
     {
-        STaskMgr->OnWork();
+        sTaskMgr->OnWork();
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
     return 0;

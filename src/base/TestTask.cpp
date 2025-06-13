@@ -29,17 +29,17 @@ void TestTask()
         std::cout << "Task 4 interval: " << 30000 <<"now:"<<TTime::NowMS()<< std::endl;
         task->Restart(); 
     }, 3000);
-    STaskMgr->Add(task1);
-    STaskMgr->Add(task2);
-    STaskMgr->Add(task3);
-    STaskMgr->Add(task4);
+    sTaskMgr->Add(task1);
+    sTaskMgr->Add(task2);
+    sTaskMgr->Add(task3);
+    sTaskMgr->Add(task4);
 }    
 // int main()
 // {
 //     TestTask();
 //     while(1)
 //     {
-//         STaskMgr->OnWork();
+//         sTaskMgr->OnWork();
 //         std::this_thread::sleep_for(std::chrono::milliseconds(50));
 
 //     }

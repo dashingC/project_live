@@ -25,5 +25,5 @@ namespace tmms
         };
 
     }
-#define STaskMgr tmms::base::Singleton<tmms::base::TaskMgr>::Instance()
+#define sTaskMgr tmms::base::Singleton<tmms::base::TaskMgr>::Instance()
 } // namespace tmms::base
