@@ -1,16 +1,19 @@
 #include "Config.h"
 #include "LogStream.h"
-
+#include <fstream>
 using namespace tmms::base;
 
 bool Config::LoadConfig(const std::string &file)
 {
     LOG_DEBUG << "config file: " << file;
     Json::Value root;
-    Json::Reader reader;
-    if (!reader.parse(file, root))
+    Json::CharReaderBuilder reader;
+    std::ifstream in(file);
+    std::string err;
+    auto ok = Json::parseFromStream(reader, in, &root, &err);
+    if (!ok)
     {
-        LOG_ERROR << "Failed to parse config file: " << file;
+        LOG_ERROR << "Failed to parse config file: " << file<< " Error: " << err;
         return false;
     }
 
@@ -105,6 +108,7 @@ bool Config::ParseLogInfo(const Json::Value &root) // 解析
             return false;
         }
     }
+    return true;
 }
 LogInfoPtr &Config::GetLogInfo()
 {
