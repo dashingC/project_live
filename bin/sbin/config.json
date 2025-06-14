@@ -7,6 +7,6 @@
         "level": "DEBUG",
         "name": "tmms.log",
         "path": "../log/",
-        "rotate": "kRotateNone"
+        "rotate": "HOUR"
     }
 }

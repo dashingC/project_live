@@ -3,6 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/syscall.h>
+#include <iostream>
 
 using namespace tmms::base;
 Logger *tmms::base::g_logger = nullptr;
@@ -51,6 +52,10 @@ LogStream::~LogStream()
     if (logger_)
     {
         logger_->Write(stream_.str());
+    }
+    else
+    {
+        std::cout<< stream_.str()<< std::endl;
     }
 
 }

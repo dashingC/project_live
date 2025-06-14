@@ -10,7 +10,7 @@ using namespace tmms::base;
 
 int main(int argc, const char **argv)
 {
-    if (sConfigMgr->LoadConfig("../"))
+    if (!sConfigMgr->LoadConfig("./config.json"))
     {
         std::cerr << "load config failed!" << std::endl;
         return -1;
@@ -18,9 +18,9 @@ int main(int argc, const char **argv)
 
     ConfigPtr config = sConfigMgr->GetConfig();
     LogInfoPtr log_info = config->GetLogInfo();
-    std::cout << "Log Level: " << log_info->level
-              << "path:" << log_info->path
-              << "Log Name: " << log_info->name
+    std::cout << " Level: " << log_info->level
+              << " path: " << log_info->path
+              << " Name: " << log_info->name
               << std::endl;
     FileLogPtr log = sFileMgr->GetFileLog(log_info->path + log_info->name);
     if (!log)
