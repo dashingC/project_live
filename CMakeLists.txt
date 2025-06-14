@@ -39,9 +39,12 @@ if(NOT JSONCPP_FOUND)
         CMAKE_ARGS 
             -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/jsoncpp
             -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+            -DCMAKE_INSTALL_LIBDIR=lib
         BUILD_BYPRODUCTS ${CMAKE_BINARY_DIR}/jsoncpp/lib/libjsoncpp.a
     )
     
+    file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/jsoncpp/include)
+
     add_library(jsoncpp STATIC IMPORTED)
     set_target_properties(jsoncpp PROPERTIES
         IMPORTED_LOCATION ${CMAKE_BINARY_DIR}/jsoncpp/lib/libjsoncpp.a
