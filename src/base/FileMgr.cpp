@@ -32,13 +32,18 @@ void FileMgr::OnCheck()
         day_change = true;
     if (last_hour_ != hour)
         hour_change = true;
-    if (!day_change && !hour_change)
+    if (!day_change && !hour_change && !minute_change) // 如果没有跨天、跨小时或跨分钟，则不需要切分日志
         return;
 
     std::lock_guard<std::mutex> lk(lock_);
+    last_day_ = day;
+    last_hour_ = hour;
+    last_minute_ = minute;
+    last_month_ = month;
+    last_year_ = year;
     for (auto &l : logs_) // 遍历所有日志对象，判断是否需要切分
     {
-        
+
         if (minute_change && l.second->GetRotateType() == kRotateMinute) // 判断是否跨分钟 & 日志是否设置为“按分钟切分”
         {
             RotateMinutes(l.second);
@@ -53,23 +58,18 @@ void FileMgr::OnCheck()
             RotateDays(l.second);
         }
     }
-
-    last_day_ = day;
-    last_hour_ = hour;
-    last_month_ = month;
-    last_year_ = year;
 }
-FileLogPtr FileMgr::GetFileLog(const std::string &file_name)// 获取文件日志对象，如果不存在则创建一个新的
+FileLogPtr FileMgr::GetFileLog(const std::string &file_name) // 获取文件日志对象，如果不存在则创建一个新的
 {
     std::lock_guard<std::mutex> lk(lock_);
     auto iter = logs_.find(file_name);
     if (iter != logs_.end())
     {
-        return iter->second;// 如果日志已存在，则直接返回iter的第二个值，即FileLogPtr对象
+        return iter->second; // 如果日志已存在，则直接返回iter的第二个值，即FileLogPtr对象
     }
 
     // 如果日志不存在，则创建一个新的日志对象
-    //语法详细解释：
+    // 语法详细解释：
     // 基本语法是 std::make_shared<要创建的类型>(给构造函数的参数...)
     // 在 std::make_shared<FileLog>() 中，跟在类型后面的括号 () 就是用来传递参数给 FileLog 类的构造函数的
     FileLogPtr log = std::make_shared<FileLog>();
@@ -77,7 +77,7 @@ FileLogPtr FileMgr::GetFileLog(const std::string &file_name)// 获取文件日�
     {
         return file_log_nullptr; // 打开日志文件失败
     }
-    logs_.emplace(file_name, log);// 将新创建的日志对象插入到logs_哈希表中，键为file_name，值为log
+    logs_.emplace(file_name, log); // 将新创建的日志对象插入到logs_哈希表中，键为file_name，值为log
     return log;
 }
 void FileMgr::RemoveFileLog(const FileLogPtr &log)
@@ -134,7 +134,7 @@ void FileMgr::RotateMinutes(const FileLogPtr &file)
         char buf[128] = {
             0,
         };
-        sprintf(buf, "%04d-%02d-%02dT%02d", last_year_, last_month_, last_day_, last_hour_);
+        sprintf(buf, "%04d-%02d-%02dT%02d:%02d", last_year_, last_month_, last_day_, last_hour_,last_minute_);
         std::string file_path = file->FilePath();
         std::string path = StringUtils::FilePath(file_path);
         std::string file_name = StringUtils::FileName(file_path);
@@ -143,7 +143,7 @@ void FileMgr::RotateMinutes(const FileLogPtr &file)
         std::ostringstream ss;
         ss << path
            << file_name
-           << buf
+           << buf<<"."
            << file_ext;
         file->Rotate(ss.str());
     }

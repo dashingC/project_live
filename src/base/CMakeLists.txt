@@ -20,10 +20,11 @@ target_link_libraries(base
 )
 
 # 如果需要测试可执行文件
-option(BUILD_BASE_TESTS "Build base tests" OFF)
-if(BUILD_BASE_TESTS)
-    add_executable(base_test ${BASE_SOURCES})
-    target_link_libraries(base_test base)
-endif()
+# option(BUILD_BASE_TESTS "Build base tests" OFF)
+# if(BUILD_BASE_TESTS)
+#     add_executable(base_test ${BASE_SOURCES})
+#     target_link_libraries(base_test base)
+# endif()
 
-
+add_executable(base_test ${BASE_SOURCES})
+target_link_libraries(base_test base)

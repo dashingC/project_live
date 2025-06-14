@@ -21,8 +21,9 @@ void TestLog()
                             LOG_INFO << "This is an info log message.   now:" << TTime::NowMS();
                             // LOG_WARN << "This is a warning log message. now:" << TTime::NowMS();
                             // LOG_ERROR << "This is an error log message. now:" << TTime::NowMS();
-                            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+                            std::this_thread::sleep_for(std::chrono::seconds(10));
                         } });
+    t.detach(); // 分离线程，使其在后台运行，不阻塞主线程
 }
 int main()
 {
@@ -45,6 +46,8 @@ int main()
                                             task->Restart();
                                             }, 
                                             1000);
+    //将这个任务添加到任务管理器中，任务管理器会负责定期调用这个任务的执行函数。
+    sTaskMgr->Add(task4);
     TestLog();
     while(true)
     {
