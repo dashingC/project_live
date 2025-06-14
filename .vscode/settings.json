@@ -48,7 +48,7 @@
         "numeric": "cpp",
         "cinttypes": "cpp"
     },
-    "workbench.tree.indent": 26,
+    "workbench.tree.indent": 30,
     "workbench.tree.renderIndentGuides": "always",
     "workbench.colorCustomizations": {
         "tree.indentGuidesStroke": "#FF8800",
