@@ -10,7 +10,7 @@ using namespace tmms::base;
 
 int main(int argc, const char **argv)
 {
-    if (!sConfigMgr->LoadConfig("./config.json"))
+    if (!sConfigMgr->LoadConfig("../config/config.json"))
     {
         std::cerr << "load config failed!" << std::endl;
         return -1;
@@ -21,6 +21,7 @@ int main(int argc, const char **argv)
     std::cout << " Level: " << log_info->level
               << " path: " << log_info->path
               << " Name: " << log_info->name
+              << " RotateType: " << log_info->rotate_type
               << std::endl;
     FileLogPtr log = sFileMgr->GetFileLog(log_info->path + log_info->name);
     if (!log)
