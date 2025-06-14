@@ -37,3 +37,4 @@ namespace tmms
         };
     }
 }
+//Event事件的抽象基类，封装了文件描述符（fd）和相关的回调函数,比如如 OnRead, OnWrite等

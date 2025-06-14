@@ -27,8 +27,8 @@ namespace tmms
 
         private:
             void StartEventLoop();
-
             EventLoop * loop_{nullptr};
+            //std::thread 的构造函数接收一个可调用对象（这里是一个lambda表达式），并立即启动一个新的操作系统线程来执行这个对象。
             std::thread thread_;
             bool running_{false};
             std::mutex lock_;
@@ -38,3 +38,5 @@ namespace tmms
         };
     }
 }
+
+//
