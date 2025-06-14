@@ -1,6 +1,5 @@
-
 #include "network/net/EventLoopThread.h"
-// #include "network/net/EventLoopThreadPool.h"
+#include "network/net/EventLoopThreadPool.h"
 #include "network/net/EventLoop.h"
 #include "base/TTime.h"
 #include "network/net/PipeEvent.h"
@@ -30,6 +29,7 @@ void TestEventLoopThread(){
         int64_t test = 12345;
         // 主线程通过 pipe_event 对象写入数据，触发子线程中的读事件
         pipe_event->Write((const char*)&test, sizeof(test));
+
         th = std::thread([&pipe_event](){
             
             while(1){
@@ -37,17 +37,31 @@ void TestEventLoopThread(){
                 int64_t now = tmms::base::TTime::NowMS();
                 pipe_event->Write((const char*)&now, sizeof(now));
             }
-        });
+        });//子线程会阻塞在这里面
+
+        // 主线程继续执行其他操作
         while(1){
             std::this_thread::sleep_for(std::chrono::seconds(1));
         }
     }
 }
 
-// void TestEventLoopThreadPool(){
-//     EventLoopThreadPool pool(2, 0, 2);
+void TestEventLoopThreadPool()
+{
+    // 创建一个 EventLoopThreadPool 对象，2个线程，2个CPU
+    EventLoopThreadPool pool(2, 0, 2);
 
-//     pool.Start();
+    pool.Start();
+
+    std::vector<EventLoop*> list = pool.GetLoops();
+    for( auto &e : list)
+    {
+        std::cout << "loop:" << e <<std::endl;
+    }
+    EventLoop * loop = pool.GetNextLoop();
+    std::cout << "loop:" << loop <<std::endl;
+    loop = pool.GetNextLoop();
+    std::cout << "loop:" << loop <<std::endl;
 
 //    std::cout << "thread id : " << std::this_thread::get_id() << std::endl;
 
@@ -79,13 +93,13 @@ void TestEventLoopThread(){
 //     while(1){
 //         std::this_thread::sleep_for(std::chrono::seconds(1));
 //     }
-// }
+}
 
 int main(int argc, const char ** argv){
-    // TestEventLoopThreadPool();
-    TestEventLoopThread();
-    while(1){
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-    }
+    TestEventLoopThreadPool();
+    // TestEventLoopThread();
+    // while(1){
+    //     std::this_thread::sleep_for(std::chrono::seconds(1));
+    // }
     return 0;
 }

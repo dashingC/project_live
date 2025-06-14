@@ -48,7 +48,7 @@ void EventLoopThread::Run()
         f.get(); });
 }
 
-EventLoop *EventLoopThread::Loop() const
+EventLoop *EventLoopThread::Loop() const //获取EventLoop对象的指针
 {
     return loop_;
 }
