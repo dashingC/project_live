@@ -21,11 +21,12 @@ target_link_libraries(network
         Threads::Threads
 )
 
-add_executable(network_test
+add_executable(EventLoopThreadTest
     net/tests/EventLoopThreadTest.cpp
 )
 
-target_link_libraries(network_test
+target_link_libraries(EventLoopThreadTest
     PRIVATE
         network 
 )
+
