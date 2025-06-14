@@ -1,6 +1,11 @@
-aux_source_directory(. SRCS)
-add_executable(tmms ${SRCS})
+add_executable(tmms main.cpp)
 
-add_dependencies(base jsoncpp)
-target_link_libraries(tmms base jsoncpp_static.a)
-install(TARGETS tmms RUNTIME DESTINATION sbin)
+target_link_libraries(tmms 
+    PRIVATE 
+        base
+)
+
+# 安装规则
+install(TARGETS tmms 
+    RUNTIME DESTINATION sbin
+)

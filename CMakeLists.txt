@@ -1,31 +1,54 @@
-cmake_minimum_required(VERSION 2.6)
-project(tmms)
-set(CMAKE_INSTALL_PREFIX ../bin)
+cmake_minimum_required(VERSION 3.10)
+project(tmms VERSION 1.0.0 LANGUAGES CXX)
 
-include(ExternalProject)
-ExternalProject_Add(jsoncpp
-        SOURCE_DIR ${PROJECT_SOURCE_DIR}/third_party/jsoncpp
-        CONFIGURE_COMMAND mkdir -p ../jsoncpp-build && cd ../jsoncpp-build && cmake ../jsoncpp -DCMAKE_INSTALL_PREFIX=${PROJECT_SOURCE_DIR}/lib/jsoncpp/
-        BUILD_COMMAND cd ../jsoncpp-build && make
-        BUILD_IN_SOURCE 1
-        INSTALL_COMMAND cd ../jsoncpp-build && make install
-)
-include_directories(${PROJECT_SOURCE_DIR}/lib/jsoncpp/include/)
-link_directories(${PROJECT_SOURCE_DIR}/lib/jsoncpp/lib64/)
-link_directories(${PROJECT_SOURCE_DIR}/lib/jsoncpp/lib/)
+# 设置C++标准
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-if (CMAKE_BUILD_TYPE STREQUAL Debug)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O0 -g -pipe -Wall -Werror -Wno-unused-variable -lrt -pthread")
-elseif (NOT CMAKE_BUILD_TYPE STREQUAL Debug)
-    message(STATUS "Release Version.")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3 -g -pipe -Wall -Werror -Wno-unused-variable -lrt -pthread")
-endif ()
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-strict-aliasing -Wno-error=shadow -Wno-sign-compare")
-message(STATUS "USING GCC VERSION: ${CMAKE_CXX_COMPILER_VERSION}")
-if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 7.2.9)
-    message(STATUS "GCC Version > 7.3.0, USING -Wno-error=unused-result -Werror=return-type")
-    set(CMAKE_CXX_FLAGS "-Wno-error=unused-result -Werror=return-type ${CMAKE_CXX_FLAGS}")
+# 设置安装目录
+set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/../bin)
+
+# 编译选项，是Debug还是Release,Debug就-O0 -g（不优化），Release就-O3 -g（优化）
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g -Wall -Werror -Wno-unused-variable")
+else()
+    set(CMAKE_CXX_FLAGS_RELEASE "-O3 -g -Wall -Werror -Wno-unused-variable")
 endif()
-include_directories(src)
+
+# 添加通用编译选项
+add_compile_options(-fno-strict-aliasing -Wno-error=shadow -Wno-sign-compare)
+
+# GCC版本特定选项
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 7.2.9)
+    add_compile_options(-Wno-error=unused-result -Werror=return-type)
+endif()
+
+find_package(Threads REQUIRED)
+
+# 处理jsoncpp依赖
+find_package(PkgConfig QUIET)
+if(PkgConfig_FOUND)
+    pkg_check_modules(JSONCPP jsoncpp)
+endif()
+
+if(NOT JSONCPP_FOUND)
+    # 使用ExternalProject作为备选
+    include(ExternalProject)
+    ExternalProject_Add(jsoncpp_external
+        SOURCE_DIR ${CMAKE_SOURCE_DIR}/third_party/jsoncpp
+        CMAKE_ARGS 
+            -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/jsoncpp
+            -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+        BUILD_BYPRODUCTS ${CMAKE_BINARY_DIR}/jsoncpp/lib/libjsoncpp.a
+    )
+    
+    add_library(jsoncpp STATIC IMPORTED)
+    set_target_properties(jsoncpp PROPERTIES
+        IMPORTED_LOCATION ${CMAKE_BINARY_DIR}/jsoncpp/lib/libjsoncpp.a
+        INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_BINARY_DIR}/jsoncpp/include
+    )
+    add_dependencies(jsoncpp jsoncpp_external)
+endif()
+
+# 包含源码目录
 add_subdirectory(src)
-add_dependencies(tmms jsoncpp)
