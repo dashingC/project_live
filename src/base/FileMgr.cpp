@@ -48,7 +48,7 @@ void FileMgr::OnCheck()
         {
             RotateHours(l.second);
         }
-        if (day_change && l.second->GetRotateType() == kRotateDaily) // 判断是否跨天 & 日志是否设置为“按天切分”
+        if (day_change && l.second->GetRotateType() == kRotateDay) // 判断是否跨天 & 日志是否设置为“按天切分”
         {
             RotateDays(l.second);
         }

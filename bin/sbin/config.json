@@ -6,6 +6,7 @@
     {
         "level": "DEBUG",
         "name": "tmms.log",
-        "path": "../log/"
+        "path": "../log/",
+        "rotate": "kM"
     }
 }

@@ -10,7 +10,7 @@ namespace tmms
             kRotateNone, // 不切分
             kRotateMinute, // 按分钟切分
             kRotateHour, // 按小时切分
-            kRotateDaily, // 按天切分                   
+            kRotateDay, // 按天切分                   
         };
         
         class FileLog

@@ -3,6 +3,11 @@
 #include <cstdint>
 #include <memory>
 #include "json/json.h"
+#include "NonCopyable.h"
+#include "Singleton.h"
+#include "Logger.h"
+#include "FileLog.h"
+#include <mutex>
 
 namespace tmms
 {
@@ -11,9 +16,10 @@ namespace tmms
 
         struct LogInfo
         {
-            std::string level;
+            LogLevel level;
             std::string path;
             std::string name;
+            RotateType  rotate_type{kRotateNone};
         };
 
         using LogInfoPtr = std::shared_ptr<LogInfo>;
@@ -38,5 +44,23 @@ namespace tmms
 
 
         };
+        using ConfigPtr = std::shared_ptr<Config>;
+        class ConfigMgr:public NonCopyable
+        {
+
+            public:
+            ConfigMgr() = default;
+            ~ConfigMgr() = default;
+
+            bool LoadConfig(const std::string &file);
+            ConfigPtr GetConfig();        
+
+            private:
+            ConfigPtr config_;
+            std::mutex lock_;
+        
+        };
+        #define sConfigMgr tmms::base::Singleton<tmms::base::ConfigMgr>::Instance()
     }
+
 }
