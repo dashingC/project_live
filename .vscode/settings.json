@@ -47,5 +47,12 @@
         "iomanip": "cpp",
         "numeric": "cpp",
         "cinttypes": "cpp"
+    },
+    "workbench.tree.indent": 26,
+    "workbench.tree.renderIndentGuides": "always",
+    "workbench.colorCustomizations": {
+        "tree.indentGuidesStroke": "#FF8800",
+        "editorIndentGuide.background": "#aaaaaa",
+        "editorIndentGuide.activeBackground": "#ff8800"
     }
 }
