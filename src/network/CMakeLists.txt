@@ -47,3 +47,12 @@ target_link_libraries(SockOptTest
     PRIVATE
         network 
 )
+
+add_executable(AcceptorTest
+    net/tests/AcceptorTest.cpp
+)
+
+target_link_libraries(AcceptorTest
+    PRIVATE
+        network 
+)
