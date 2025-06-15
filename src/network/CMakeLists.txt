@@ -30,3 +30,20 @@ target_link_libraries(EventLoopThreadTest
         network 
 )
 
+add_executable(InetAddressTest
+    net/tests/InetAddressTest.cpp
+)
+
+target_link_libraries(InetAddressTest
+    PRIVATE
+        network 
+)
+
+add_executable(SockOptTest
+    net/tests/SockOptTest.cpp
+)
+
+target_link_libraries(SockOptTest
+    PRIVATE
+        network 
+)
