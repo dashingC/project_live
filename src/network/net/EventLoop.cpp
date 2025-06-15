@@ -125,18 +125,25 @@ void EventLoop::Quit()
 //增加事件
 void EventLoop::AddEvent(const EventPtr &event)
 {
+    // 1. 检查事件是否已经注册
     auto iter = events_.find(event->Fd());
     if (iter != events_.end())
     {
         return;
     }
-    event->event_ |= kEventRead;
-    events_[event->Fd()] = event;
 
+    // 2. 添加关注可读事件
+    event->event_ |= kEventRead;
+
+    // 3. 在内部map中建立 fd 到 Event 对象的映射
+    events_[event->Fd()] = event;
+    
+    // 4. 准备 epoll_event 结构体
     struct epoll_event ev;
     memset(&ev, 0x00, sizeof(struct epoll_event));
     ev.events = event->event_;
     ev.data.fd = event->fd_;
+    
     epoll_ctl(epoll_fd_, EPOLL_CTL_ADD, event->fd_, &ev);
 }
 //删除事件
@@ -223,6 +230,7 @@ bool EventLoop::IsInLoopThread() const
     return t_local_eventloop == this;
 }
 
+// RunInLoop：把一个新的任务放到任务队列中，并唤醒事件循环线程
 void EventLoop::RunInLoop(const Func &f)
 {
     if (IsInLoopThread())
@@ -266,7 +274,9 @@ void EventLoop::WakeUp()
 {
     if (!pipe_event_)
     {
+        // 创建一个新的管道事件
         pipe_event_ = std::make_shared<PipeEvent>(this);
+        // 将管道事件添加到事件循环中
         AddEvent(pipe_event_);
     }
     int tmp = 1;

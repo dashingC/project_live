@@ -6,7 +6,7 @@
 
 using namespace tmms::network;
 
-// 首先定义一个事件循环
+// 首先创建一个事件循环
 EventLoopThread eventloop_thread;
 // 定义了一个名为 th 的线程对象，但它没有绑定任何线程函数，因此也没有启动线程
 std::thread th;
@@ -20,6 +20,7 @@ int main(int argc, char **argv)
     {
         InetAddress server("192.168.222.100:34444");
         std::shared_ptr<Acceptor> acceptor = std::make_shared<Acceptor>(loop, server);
+        // 设置acceptor中的回调函数，当有一个新的连接，则执行该函数
         acceptor->SetAcceptCallback([](int fd, const InetAddress addr)
                                     { std::cout << "host:" << addr.ToIpPort() << std::endl; });
         acceptor->Start();
