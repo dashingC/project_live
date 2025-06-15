@@ -18,7 +18,7 @@ void testClient()
     opt.SetNonBlocking(false);
     auto ret = opt.Connect(sever);
 
-    std::cout << "connect ret: " << ret << "errorn:" << errno << std::endl
+    std::cout << "connect ret: " << ret << "  errorn:" << errno << std::endl
               << "local:" << opt.GetLocalAddr()->ToIpPort() << std::endl
               << "PEER:" << opt.GetPeerAddr()->ToIpPort() << std::endl
               << std::endl;
@@ -48,7 +48,7 @@ void testServer()
 
 int main(int argc, const char **argv)
 {
-    testClient();
-    // testServer();
+    // testClient();
+    testServer();
     return 0;
 }
