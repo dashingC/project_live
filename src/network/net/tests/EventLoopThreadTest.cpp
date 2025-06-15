@@ -82,6 +82,7 @@ void TestEventLoopThreadPool()
     // 测试用例3 时间轮
     EventLoop *loop = pool.GetNextLoop();
     std::cout << "loop:" << loop << std::endl;
+    std::cout << " now:" << tmms::base::TTime::Now()<<std::endl;
     loop->RunAfter(1, []()
                    { std::cout << "run after 1s now:" << tmms::base::TTime::Now() << std::endl; });
     loop->RunAfter(5, []()

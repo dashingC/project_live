@@ -72,9 +72,13 @@ void TimingWheel::OnTimer(int64_t now)
 }
 void TimingWheel::PopUp(Wheel &bq)
 {
+    // 1. 准备一个临时的空槽位（空的“任务袋”）
     WheelEntry tmp;
+    // 2. 将双端队列中的第一个槽位（任务袋）中的所有任务转移到临时槽位中，轮子上的槽位为空
     bq.front().swap(tmp);
+    // 3. 将旧槽位（现在已经是空的）从轮子头部移除
     bq.pop_front();
+    // 4. 在轮子尾部补充一个新的空槽位
     bq.push_back(WheelEntry());
 }
 
