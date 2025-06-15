@@ -40,7 +40,7 @@ void PipeEvent::OnRead()
         NETWORK_ERROR << "pipe read error. ret:" << errno;
         return;
     }
-    std::cout << "pipe read tmp:" << tmp << std::endl;
+    std::cout << "管道读取到的值为：" << tmp << std::endl;
 }
 
 void PipeEvent::OnClose()

@@ -106,9 +106,9 @@ void EventLoop::Loop()
             {
                 epoll_events_.resize(epoll_events_.size() * 2);
             }
-            // RunFunctions();
-            // int64_t now = tmms::base::TTime::NowMS();
-            // wheel_.OnTimer(now);
+            RunFunctions();
+            int64_t now = tmms::base::TTime::NowMS();
+            wheel_.OnTimer(now);
         }
         else if (ret < 0)
         {
@@ -223,118 +223,118 @@ bool EventLoop::IsInLoopThread() const
     return t_local_eventloop == this;
 }
 
-// void EventLoop::RunInLoop(const Func &f)
-// {
-//     if (IsInLoopThread())
-//     {
-//         f();
-//     }
-//     else
-//     {
-//         std::lock_guard<std::mutex> lk(lock_);
-//         functions_.push(f);
+void EventLoop::RunInLoop(const Func &f)
+{
+    if (IsInLoopThread())
+    {
+        f();
+    }
+    else
+    {
+        std::lock_guard<std::mutex> lk(lock_);
+        functions_.push(f);
 
-//         WakeUp();
-//     }
-// }
-// void EventLoop::RunInLoop(Func &&f)
-// {
-//     if (IsInLoopThread())
-//     {
-//         f();
-//     }
-//     else
-//     {
-//         std::lock_guard<std::mutex> lk(lock_);
-//         functions_.push(std::move(f));
+        WakeUp();
+    }
+}
+void EventLoop::RunInLoop(Func &&f)
+{
+    if (IsInLoopThread())
+    {
+        f();
+    }
+    else
+    {
+        std::lock_guard<std::mutex> lk(lock_);
+        functions_.push(std::move(f));
 
-//         WakeUp();
-//     }
-// }
+        WakeUp();
+    }
+}
 
-// void EventLoop::RunFunctions()
-// {
-//     std::lock_guard<std::mutex> lk(lock_);
-//     while (!functions_.empty())
-//     {
-//         auto &f = functions_.front();
-//         f();
-//         functions_.pop();
-//     }
-// }
-// void EventLoop::WakeUp()
-// {
-//     if (!pipe_event_)
-//     {
-//         pipe_event_ = std::make_shared<PipeEvent>(this);
-//         AddEvent(pipe_event_);
-//     }
-//     int tmp = 1;
-//     pipe_event_->Write((const char *)&tmp, sizeof(tmp));
-// }
+void EventLoop::RunFunctions()
+{
+    std::lock_guard<std::mutex> lk(lock_);
+    while (!functions_.empty())
+    {
+        auto &f = functions_.front();
+        f();
+        functions_.pop();
+    }
+}
+void EventLoop::WakeUp()
+{
+    if (!pipe_event_)
+    {
+        pipe_event_ = std::make_shared<PipeEvent>(this);
+        AddEvent(pipe_event_);
+    }
+    int tmp = 1;
+    pipe_event_->Write((const char *)&tmp, sizeof(tmp));
+}
 
-// // 时间轮功能
-// void EventLoop::InsertEntry(uint32_t delay, EntryPtr entrPtr)
-// {
-//     if (IsInLoopThread())
-//     {
-//         wheel_.InsertEntry(delay, entrPtr);
-//     }
-//     else
-//     {
-//         RunInLoop([this, delay, entrPtr]()
-//                   { wheel_.InsertEntry(delay, entrPtr); });
-//     }
-// }
+// 时间轮功能
+void EventLoop::InsertEntry(uint32_t delay, EntryPtr entrPtr)
+{
+    if (IsInLoopThread())
+    {
+        wheel_.InsertEntry(delay, entrPtr);
+    }
+    else
+    {
+        RunInLoop([this, delay, entrPtr]()
+                  { wheel_.InsertEntry(delay, entrPtr); });
+    }
+}
 
-// void EventLoop::RunAfter(double delay, const Func &cb)
-// {
-//     if (IsInLoopThread())
-//     {
-//         wheel_.RunAfter(delay, cb);
-//     }
-//     else
-//     {
-//         RunInLoop([this, delay, cb]()
-//                   { wheel_.RunAfter(delay, cb); });
-//     }
-// }
+void EventLoop::RunAfter(double delay, const Func &cb)
+{
+    if (IsInLoopThread())
+    {
+        wheel_.RunAfter(delay, cb);
+    }
+    else
+    {
+        RunInLoop([this, delay, cb]()
+                  { wheel_.RunAfter(delay, cb); });
+    }
+}
 
-// void EventLoop::RunAfter(double delay, Func &&cb)
-// {
-//     if (IsInLoopThread())
-//     {
-//         wheel_.RunAfter(delay, cb);
-//     }
-//     else
-//     {
-//         RunInLoop([this, delay, cb]()
-//                   { wheel_.RunAfter(delay, cb); });
-//     }
-// }
+void EventLoop::RunAfter(double delay, Func &&cb)
+{
+    if (IsInLoopThread())
+    {
+        wheel_.RunAfter(delay, cb);
+    }
+    else
+    {
+        RunInLoop([this, delay, cb]()
+                  { wheel_.RunAfter(delay, cb); });
+    }
+}
 
-// void EventLoop::RunEvery(double inerval, const Func &cb)
-// {
-//     if (IsInLoopThread())
-//     {
-//         wheel_.RunEvery(inerval, cb);
-//     }
-//     else
-//     {
-//         RunInLoop([this, inerval, cb]()
-//                   { wheel_.RunEvery(inerval, cb); });
-//     }
-// }
+void EventLoop::RunEvery(double inerval, const Func &cb)
+{
+    if (IsInLoopThread())
+    {
+        wheel_.RunEvery(inerval, cb);
+    }
+    else
+    {
+        RunInLoop([this, inerval, cb]()
+                  { wheel_.RunEvery(inerval, cb); });
+    }
+}
 
-// void EventLoop::RunEvery(double inerval, Func &&cb)
-// {
-//     if (IsInLoopThread())
-//     {
-//         wheel_.RunEvery(inerval, cb);
-//     }
-//     else
-//     {
-//         RunInLoop([this, inerval, cb]()
-//                   { wheel_.RunEvery(inerval, cb); });
-//     }
-// }
+void EventLoop::RunEvery(double inerval, Func &&cb)
+{
+    if (IsInLoopThread())
+    {
+        wheel_.RunEvery(inerval, cb);
+    }
+    else
+    {
+        RunInLoop([this, inerval, cb]()
+                  { wheel_.RunEvery(inerval, cb); });
+    }
+}

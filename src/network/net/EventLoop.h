@@ -7,8 +7,8 @@
 #include <queue>
 #include <mutex>
 #include "Event.h"
-// #include "PipeEvent.h"
-// #include "TimingWheel.h"
+#include "PipeEvent.h"
+#include "TimingWheel.h"
 /*
     IO就绪事件监听
     IO事件处理
@@ -44,17 +44,17 @@ namespace network
                     2. 调用方所在线程跟EventLoop所在线程不是同一个线程，把任务进队，由Loop去执行
                 任务队列需要加锁
             */
-            void AssertInLoopThread();
+            void AssertInLoopThread();//断言是否在同一个事件循环线程中，不是直接退出
             bool IsInLoopThread() const;
-            void RunInLoop(const Func &f);
+            void RunInLoop(const Func &f);//跑任务队列中的任务
             void RunInLoop(Func &&f);
 
             // 时间轮功能
-            // void InsertEntry(uint32_t delay, EntryPtr entrPtr); 
-            // void RunAfter(double delay, const Func &cb);
-            // void RunAfter(double delay, Func &&cb);
-            // void RunEvery(double inerval, const Func &cb);
-            // void RunEvery(double inerval, Func &&cb);
+            void InsertEntry(uint32_t delay, EntryPtr entrPtr); 
+            void RunAfter(double delay, const Func &cb);
+            void RunAfter(double delay, Func &&cb);
+            void RunEvery(double inerval, const Func &cb);
+            void RunEvery(double inerval, Func &&cb);
         private:
             bool looping_{false};
             int epoll_fd_{-1};
@@ -62,14 +62,15 @@ namespace network
             std::unordered_map<int, EventPtr> events_;
         
             // 任务队列私有
-            // void RunFunctions();
-            // void WakeUp();
-            // std::queue<Func> functions_;
-            // std::mutex lock_;
-            // PipeEventPtr pipe_event_;
+            void RunFunctions();
+           
+            void WakeUp();
+            std::queue<Func> functions_;
+            std::mutex lock_;
+            PipeEventPtr pipe_event_;
 
-            // // 时间轮
-            // TimingWheel wheel_;
+            // 时间轮
+            TimingWheel wheel_;
         };
     }
 }
