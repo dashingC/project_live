@@ -143,7 +143,7 @@ void EventLoop::AddEvent(const EventPtr &event)
     memset(&ev, 0x00, sizeof(struct epoll_event));
     ev.events = event->event_;
     ev.data.fd = event->fd_;
-    
+
     epoll_ctl(epoll_fd_, EPOLL_CTL_ADD, event->fd_, &ev);
 }
 //删除事件
@@ -284,16 +284,16 @@ void EventLoop::WakeUp()
 }
 
 // 时间轮功能
-void EventLoop::InsertEntry(uint32_t delay, EntryPtr entrPtr)
+void EventLoop::InsertEntry(uint32_t delay, EntryPtr entryPtr)
 {
     if (IsInLoopThread())
     {
-        wheel_.InsertEntry(delay, entrPtr);
+        wheel_.InsertEntry(delay, entryPtr);
     }
     else
     {
-        RunInLoop([this, delay, entrPtr]()
-                  { wheel_.InsertEntry(delay, entrPtr); });
+        RunInLoop([this, delay, entryPtr]()
+                  { wheel_.InsertEntry(delay, entryPtr); });
     }
 }
 

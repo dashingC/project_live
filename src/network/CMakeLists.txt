@@ -56,3 +56,11 @@ target_link_libraries(AcceptorTest
     PRIVATE
         network 
 )
+add_executable(TcpConnectionTest
+    net/tests/TcpConnectionTest.cpp
+)
+
+target_link_libraries(TcpConnectionTest
+    PRIVATE
+        network 
+)

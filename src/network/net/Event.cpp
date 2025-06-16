@@ -14,7 +14,12 @@ Event::Event(EventLoop *loop, int fd) : loop_(loop), fd_(fd)
 
 Event::~Event()
 {
-    if (fd_ > 0)
+   Close();
+}
+
+void Event::Close()
+{
+     if (fd_ > 0)
     {
         ::close(fd_);
         fd_ = -1;
