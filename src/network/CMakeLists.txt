@@ -64,3 +64,21 @@ target_link_libraries(TcpConnectionTest
     PRIVATE
         network 
 )
+
+add_executable(TcpServerTest
+    net/tests/TcpServerTest.cpp
+)
+
+target_link_libraries(TcpServerTest
+    PRIVATE
+        network 
+)
+
+add_executable(TcpClientTest
+    net/tests/TcpClientTest.cpp
+)
+
+target_link_libraries(TcpClientTest
+    PRIVATE
+        network 
+)
