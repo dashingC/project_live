@@ -45,3 +45,9 @@ target_link_libraries(TcpClientTest PRIVATE network)
 
 add_executable(DnsServiceTest net/tests/DnsServiceTest.cpp)
 target_link_libraries(DnsServiceTest PRIVATE network)
+
+add_executable(UdpClientTest net/tests/UdpClientTest.cpp)
+target_link_libraries(UdpClientTest PRIVATE network) 
+
+add_executable(UdpServerTest net/tests/UdpServerTest.cpp)
+target_link_libraries(UdpServerTest PRIVATE network) 

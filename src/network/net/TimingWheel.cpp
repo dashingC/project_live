@@ -61,11 +61,11 @@ void TimingWheel::OnTimer(int64_t now)
     {
         PopUp(wheels_[kTimingWheelMinute]);
     }
-    else if (tick_ % kTimingHour == 0)
+    if (tick_ % kTimingHour == 0)
     {
         PopUp(wheels_[kTimingWheelHour]);
     }
-    else if (tick_ % kTimingDay == 0)
+    if (tick_ % kTimingDay == 0)
     {
         PopUp(wheels_[kTimingWheelDay]);
     }

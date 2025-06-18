@@ -3,13 +3,15 @@
 
 using namespace tmms::network;
 
+
 int main(int argc, const char **argv)
 {
+    std::string myadd = "www.qq.com";
     // 创建存储地址信息的向量
     std::vector<InetAddressPtr> list;
 
     // 添加域名
-    sDnsService->AddHost("www.baidu.com");
+    sDnsService->AddHost(myadd);
 
     // 启动服务
     sDnsService->Start();
@@ -18,7 +20,7 @@ int main(int argc, const char **argv)
     std::this_thread::sleep_for(std::chrono::seconds(2));
 
     // 获取结果
-    list = sDnsService->GetHostAddress("www.baidu.com");
+    list = sDnsService->GetHostAddress(myadd);
 
     // 获取主机信息
     // DnsService::GetHostInfo("www.baidu.com", list);
