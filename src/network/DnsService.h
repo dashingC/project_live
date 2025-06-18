@@ -63,7 +63,7 @@ namespace tmms
             // 运行状态标志
             bool running_{false};
 
-            // 互斥量，用于线程安全
+            // 互斥锁，用于线程安全
             std::mutex lock_;
 
             // 存储主机信息的无序映射
@@ -80,6 +80,7 @@ namespace tmms
         };
 
         // 定义单例DnsService实例
-        #define sDnsService lss::base::Singleton<lss::network::DnsService>::Instance()
+        
+        #define sDnsService tmms::base::Singleton<tmms::network::DnsService>::Instance()
     }
 }

@@ -21,64 +21,27 @@ target_link_libraries(network
         Threads::Threads
 )
 
-add_executable(EventLoopThreadTest
-    net/tests/EventLoopThreadTest.cpp
-)
+add_executable(EventLoopThreadTest net/tests/EventLoopThreadTest.cpp)
+target_link_libraries(EventLoopThreadTest PRIVATE network)
 
-target_link_libraries(EventLoopThreadTest
-    PRIVATE
-        network 
-)
+add_executable(InetAddressTest net/tests/InetAddressTest.cpp)
+target_link_libraries(InetAddressTest PRIVATE network) 
 
-add_executable(InetAddressTest
-    net/tests/InetAddressTest.cpp
-)
+add_executable(SockOptTest net/tests/SockOptTest.cpp)
+target_link_libraries(SockOptTest PRIVATE network) 
 
-target_link_libraries(InetAddressTest
-    PRIVATE
-        network 
-)
+add_executable(AcceptorTest net/tests/AcceptorTest.cpp)
+target_link_libraries(AcceptorTest PRIVATE network) 
 
-add_executable(SockOptTest
-    net/tests/SockOptTest.cpp
-)
+add_executable(TcpConnectionTest net/tests/TcpConnectionTest.cpp)
+target_link_libraries(TcpConnectionTest PRIVATE network) 
+   
+add_executable(TcpServerTest net/tests/TcpServerTest.cpp)
+target_link_libraries(TcpServerTest PRIVATE network) 
 
-target_link_libraries(SockOptTest
-    PRIVATE
-        network 
-)
+add_executable(TcpClientTest net/tests/TcpClientTest.cpp)
+target_link_libraries(TcpClientTest PRIVATE network) 
 
-add_executable(AcceptorTest
-    net/tests/AcceptorTest.cpp
-)
 
-target_link_libraries(AcceptorTest
-    PRIVATE
-        network 
-)
-add_executable(TcpConnectionTest
-    net/tests/TcpConnectionTest.cpp
-)
-
-target_link_libraries(TcpConnectionTest
-    PRIVATE
-        network 
-)
-
-add_executable(TcpServerTest
-    net/tests/TcpServerTest.cpp
-)
-
-target_link_libraries(TcpServerTest
-    PRIVATE
-        network 
-)
-
-add_executable(TcpClientTest
-    net/tests/TcpClientTest.cpp
-)
-
-target_link_libraries(TcpClientTest
-    PRIVATE
-        network 
-)
+add_executable(DnsServiceTest net/tests/DnsServiceTest.cpp)
+target_link_libraries(DnsServiceTest PRIVATE network)

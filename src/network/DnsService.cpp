@@ -1,220 +1,233 @@
-#include "TcpClient.h"
-#include "network/base/Network.h"
-#include "network/base/SocketOpt.h"
+#include <functional>
+#include <netdb.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
+#include <cstring>
+#include "DnsService.h"
 
 using namespace tmms::network;
 
-TcpClient::TcpClient(EventLoop *loop, const InetAddress &server)
-    : TcpConnection(loop, -1, InetAddress(), server)        // 调用基类TcpConnection的构造函数
-    , server_addr_(server)                                  // 初始化服务器地址                            
+// 匿名命名空间，表示其中声明的标识符具有内部链接，仅在同一翻译单元（源文件）中可访问
+namespace
 {
-
+    // static 关键字表示变量 inet_address_null 具有内部链接，不能从其他源文件访问，确保它在此文件中是唯一的
+    static InetAddressPtr inet_address_null;
 }
-
-void TcpClient::Connect()
+// 添加主机到 hosts_info_ 容器中
+void DnsService::AddHost(const std::string& host)
 {
-    // 在事件循环中运行连接操作
-    loop_->RunInLoop([this](){
-        // 调用ConnectInLoop函数
-        ConnectInLoop();
-    });
-}
+    // 使用 std::lock_guard 来管理互斥量 lock_，确保在函数执行期间对共享资源的独占访问，自动处理锁的获取和释放
+    std::lock_guard<std::mutex> lk(lock_);
 
-void TcpClient::SetConnectCallback(const ConnectionCallback &cb)
-{
-    // 将传入的回调函数赋值给connected_cb_
-    connected_cb_ = cb;
-}
+    // 在 hosts_info_ 容器中查找 host，返回一个迭代器 iter
+    auto iter = hosts_info_.find(host);
 
-void TcpClient::SetConnectCallback(ConnectionCallback &&cb)
-{
-    // 移动传入的回调函数
-    connected_cb_ = std::move(cb);
-}
-
-void TcpClient::ConnectInLoop()
-{
-    // 确保在正确的线程中执行
-    loop_->AssertInLoopThread();
-    // 创建非阻塞TCP套接字
-    fd_ = SocketOpt::CreateNonblockingTcpSocket(AF_INET);
-
-    // 检查套接字是否创建成功
-    if (fd_ < 0)
+    // 检查是否存在
+    if (iter != hosts_info_.end())
     {
-        // 创建失败，关闭连接
-        OnClose();
-
-        // 退出函数
-        return ;
-    }
-
-    // 更新状态为连接中
-    status_ = kTcpConStatusConnecting;
-    // 将当前TcpClient添加到事件循环中
-    loop_->AddEvent(std::dynamic_pointer_cast<TcpClient>(shared_from_this()));
-
-    // 启用写入
-    EnableWriting(true);
-    // 设置空闲超时为3秒
-    // EnableCheckIdleTimeout(3);
-
-    // 创建SocketOpt对象以操作套接字
-    SocketOpt opt(fd_);
-    // 尝试连接服务器
-    auto ret = opt.Connect(server_addr_);
-
-    // 如果连接成功
-    if (ret == 0)
-    {
-        // 更新连接状态
-        UpdateConnectionStatus();
-
-        // 退出函数
+        // 已存在，函数直接返回，不做任何操作
         return;
     }
-    // 如果连接失败
-    else if (ret == -1)
-    {
-        // 如果错误不是正在进行中
-        if (errno != EINPROGRESS)
-        {
-            // 记录错误信息
-            NETWORK_ERROR << " connect to server : " << server_addr_.ToIpPort() << " error : " << errno;
-            // 关闭连接
-            OnClose();
+    
+    // 如果 host 不存在，则在 hosts_info_ 中添加 host，并初始化为一个空的 InetAddressPtr 向量
+    hosts_info_[host] = std::vector<InetAddressPtr>();
+}
+// 返回某一个解析具体的结果
+InetAddressPtr DnsService::GetHostAddress(const std::string &host, int index)
+{
+    // 使用 std::lock_guard 管理互斥量 lock_，确保线程安全
+    std::lock_guard<std::mutex> lk(lock_);
 
-            // 退出函数
-            return ;
+    // 在 hosts_info_ 中查找主机名
+    auto iter = hosts_info_.find(host);
+
+    // 检查主机名是否存在
+    if (iter != hosts_info_.end())
+    {
+        // 获取与主机名关联的地址列表
+        auto list = iter->second;
+
+        // 如果列表不为空
+        if (list.size() > 0)
+        {
+            // 返回指定索引的地址，使用取模运算符处理索引超出范围的情况
+            return list[index % list.size()];
         }
     }
+
+    // 如果未找到主机名或列表为空，返回空地址
+    return inet_address_null;
 }
-
-void TcpClient::UpdateConnectionStatus()
+// 返回所有解析的结果
+std::vector<InetAddressPtr> DnsService::GetHostAddress(const std::string &host)
 {
-    // 更新状态为已连接
-    status_ = kTcpConStatusConnected;
+    // 使用 std::lock_guard 管理互斥量 lock_，确保线程安全
+    std::lock_guard<std::mutex> lk(lock_);
 
-    // 如果有连接回调函数
-    if (connected_cb_)
+    // 在 hosts_info_ 中查找主机名
+    auto iter = hosts_info_.find(host);
+
+    // 检查主机名是否存在
+    if (iter != hosts_info_.end())
     {
-        // 调用连接回调
-        connected_cb_(std::dynamic_pointer_cast<TcpClient>(shared_from_this()), true);
+        // 获取与主机名关联的地址列表
+        auto list = iter->second;
+
+        // 返回地址列表
+        return list;
+    }
+
+    // 如果未找到主机名，返回一个空的地址列表
+    return std::vector<InetAddressPtr>();
+}
+// 更新DNS服务中某个主机的地址列表
+void DnsService::UpdateHost(const std::string &host, std::vector<InetAddressPtr> &list)
+{
+    // 使用 std::lock_guard 管理互斥量 lock_，确保线程安全
+    std::lock_guard<std::mutex> lk(lock_);
+
+    // 通过交换操作，将传入的地址列表替换掉与主机名关联的现有地址列表
+    hosts_info_[host].swap(list);
+}
+// 返回当前所有主机及其关联的 IP 地址列表
+std::unordered_map<std::string, std::vector<InetAddressPtr>> DnsService::GetHosts()
+{
+    // 使用 std::lock_guard 管理互斥量 lock_，确保线程安全
+    std::lock_guard<std::mutex> lk(lock_);
+
+    // 返回当前所有主机及其关联的 IP 地址列表
+    return hosts_info_;
+}
+// 设置 DNS 服务的参数，包括时间间隔、休眠时间和重试次数
+void DnsService::SetDnsServiceParam(int32_t interval, int32_t sleep, int32_t retry)
+{
+    // 设置 DNS 服务的时间间隔
+    interval_ = interval;
+    // 设置 DNS 服务的休眠时间
+    sleep_ = sleep;
+    // 设置 DNS 服务的重试次数
+    retry_ = retry;
+}
+// 启动 DNS 服务，开始解析主机信息
+void DnsService::Start()
+{
+    // 设置服务状态为运行中
+    running_ = true;
+    // 创建一个新线程，执行 OnWork 方法
+    thread_ = std::thread(std::bind(&DnsService::OnWork, this));
+}
+// 停止 DNS 服务，等待线程完成
+void DnsService::Stop()
+{
+    // 设置服务状态为停止
+    running_ = false;
+
+    // 如果线程可连接，则等待线程完成
+    if (thread_.joinable())
+    {
+        thread_.join();
     }
 }
+
+void DnsService::OnWork()
+{
+    // 当服务运行时持续执行
+    while (running_)
+    {
+        // 获取主机信息
+        auto host_infos = GetHosts();
         
-bool TcpClient::CheckError()
-{
-    // 初始化错误变量
-    int error = 0;
-    // 获取错误变量的大小
-    socklen_t len = sizeof(error);
-    // 获取套接字错误
-    ::getsockopt(fd_, SOL_SOCKET, SO_ERROR, &error, &len);
-
-    // 返回是否有错误
-    return error != 0;
-}
-
-void TcpClient::OnRead()
-{
-    // 如果状态为连接中
-    if (status_ == kTcpConStatusConnecting)
-    {
-        // 检查连接错误
-        if (CheckError())
+        // 遍历每个主机
+        for (auto &host : host_infos)
         {
-            // 记录错误信息
-            NETWORK_ERROR << " connect to server : " << server_addr_.ToIpPort() << " error : " << errno;
-            // 关闭连接
-            OnClose();
+            std::vector<InetAddressPtr> list;
+            // 获取主机详细信息
+            GetHostInfo(host.first, list);
+            // 如果获取到信息，则更新主机
+            if (list.size() > 0)
+            {
+                UpdateHost(host.first, list);
 
-            // 退出函数
-            return;
+                // 更新后跳出循环
+                break;
+            }
+
+            // 如果没有信息，休眠一段时间再尝试
+            std::this_thread::sleep_for(std::chrono::milliseconds(sleep_));
         }
-
-        // 更新连接状态
-        UpdateConnectionStatus();
-
-        // 退出函数
-        return ;
     }
-    // 如果状态为已连接
-    else if (status_ == kTcpConStatusConnected)
-    {
-        // 调用基类的读取处理
-        TcpConnection::OnRead();
-    }
+    // 循环结束后休眠一段时间
+    std::this_thread::sleep_for(std::chrono::milliseconds(interval_));
 }
 
-void TcpClient::OnWrite()
+void DnsService::GetHostInfo(const std::string &host, std::vector<InetAddressPtr> &list)
 {
-    // 如果状态为连接中
-    if (status_ == kTcpConStatusConnecting)
+    // 定义 addrinfo 结构体并初始化
+    struct addrinfo ainfo, *res;
+    // 清空结构体
+    memset(&ainfo, 0x00, sizeof(ainfo));
+    // 支持 IPv4 和 IPv6
+    ainfo.ai_family = AF_UNSPEC;
+    // 被动模式
+    ainfo.ai_flags = AI_PASSIVE;
+    // 数据报套接字
+    ainfo.ai_socktype = SOCK_DGRAM;
+
+    // 获取主机信息
+    auto ret = ::getaddrinfo(host.c_str(), nullptr, &ainfo, &res);
+
+    // 检查返回值
+    if (ret == -1 || res == nullptr)
     {
-        // 检查连接错误
-        if (CheckError())
+        // 出错则返回
+        return;
+    }
+
+    // 指向结果链表的指针
+    struct addrinfo *rp = res;
+
+    // 遍历 addrinfo 链表
+    for (; rp != nullptr; rp = rp->ai_next)
+    {
+        // 创建 InetAddress 对象
+        InetAddressPtr peeraddr = std::make_shared<InetAddress>();
+
+        // 如果是 IPv4
+        if (rp->ai_family == AF_INET)
         {
-            // 记录错误信息
-            NETWORK_ERROR << " connect to server : " << server_addr_.ToIpPort() << " error : " << errno;
-            // 关闭连接
-            OnClose();
-
-            // 退出函数
-            return;
+            // 定义 IPv4 地址缓冲区
+            char ip[16] = {0, };
+            // 转换为 sockaddr_in
+            struct sockaddr_in *saddr = (struct sockaddr_in *)rp->ai_addr;
+            // 转换为字符串格式
+            ::inet_ntop(AF_INET, &(saddr->sin_addr.s_addr), ip, sizeof(ip));
+            // 设置地址
+            peeraddr->SetAddr(ip);
+            // 设置端口
+            peeraddr->SetPort(ntohs(saddr->sin_port));
         }
-
-        // 更新连接状态
-        UpdateConnectionStatus();
-
-        // 退出函数
-        return ;
-    }
-    // 如果状态为已连接
-    else if (status_ == kTcpConStatusConnected)
-    {
-        // 调用基类的写入处理
-        TcpConnection::OnWrite();
-    }
-}
-
-void TcpClient::OnClose()
-{
-    // 如果状态为连接中或已连接
-    if (status_ == kTcpConStatusConnecting || status_ == kTcpConStatusConnected)
-    {
-        // 从事件循环中删除
-        loop_->DelEvent(std::dynamic_pointer_cast<TcpClient>(shared_from_this()));
-    }
-
-    // 更新状态为已断开
-    status_ = kTcpConStatusDisConnected;
-    // 调用基类的关闭处理
-    TcpConnection::OnClose();
-}
-
-void TcpClient::Send(std::list<BufferNodePtr> &list)
-{
-    // 如果状态为已连接
-    if (status_ == kTcpConStatusConnected)
-    {
-        // 调用基类的发送处理
-        TcpConnection::Send(list);
+        // 如果是 IPv6
+        else if (rp->ai_family == AF_INET6)
+        {
+            // 定义 IPv6 地址缓冲区
+            char ip[INET6_ADDRSTRLEN] = {0, };
+            // 转换为 sockaddr_in6
+            struct sockaddr_in6 *saddr = (struct sockaddr_in6 *)rp->ai_addr;
+            // 转换为字符串格式
+            ::inet_ntop(AF_INET6, &(saddr->sin6_addr), ip, sizeof(ip));
+            // 设置地址
+            peeraddr->SetAddr(ip);
+            // 设置端口
+            peeraddr->SetPort(ntohs(saddr->sin6_port));
+            // 标记为 IPv6
+            peeraddr->SetIsIPV6(true);
+        }
+        // 将地址添加到列表中
+        list.push_back(peeraddr);
     }
 }
 
-void TcpClient::Send(const char *buff, size_t size)
+DnsService::~DnsService()
 {
-    // 如果状态为已连接
-    if(status_ == kTcpConStatusConnected)
-    {
-        // 调用基类的发送处理
-        TcpConnection::Send(buff, size);
-    }
-}
 
-TcpClient::~TcpClient()
-{
-    // 调用关闭函数
-    OnClose();
 }

@@ -22,7 +22,7 @@ int main(int argc, const char **agrv)
 {
     
     eventloop_thread.Run();
-    EventLoop *loop = eventloop_thread.Loop();
+    EventLoop *loop = eventloop_thread.Loop();//获取事件循环的指针
 
     // 如果事件循环有效
     if (loop)
