@@ -3,7 +3,7 @@
 #include "network/net/EventLoop.h"
 #include "network/net/EventLoopThread.h"
 #include "network/TcpServer.h"
-// #include "network/TestContext.h"
+#include "network/TestContext.h"
 
 using namespace tmms::network;
 
@@ -13,7 +13,7 @@ EventLoopThread eventloop_thread;
 std::thread th;
 
 // 定义TestContext智能指针
-// using TestContextPtr = std::shared_ptr<TestContext>;
+using TestContextPtr = std::shared_ptr<TestContext>;
 
 // 定义HTTP响应字符串
 const char *http_response = "HTTP/1.0 200 OK\r\nServer: qcy\r\nContent-Type: text/html\r\nContent-Length: 0\r\n\r\n";
@@ -32,46 +32,51 @@ int main(int argc, const char **agrv)
         // 创建TcpServer对象
         TcpServer server(loop, listen);
 
-        // 设置消息回调函数
+        // 设置消息回调函数（收到消息该怎么做）
         server.SetMessageCallback([](const TcpConnectionPtr &con, MsgBuffer &buff){
-            // TestContextPtr context = con->GetContext<TestContext>(kNormalContext);
+            TestContextPtr context = con->GetContext<TestContext>(kNormalContext);
 
-            // context->ParseMessage(buff);
+            context->ParseMessage(buff);
 
-            // 输出接收到的消息
-            std::cout << "host: " << con->PeerAddr().ToIpPort() << " msg: " << buff.Peek() << std::endl;
-            // 清空消息缓冲区
-            buff.RetrieveAll();
-            // 发送HTTP响应
-            con->Send(http_response, strlen(http_response));
+            // // 输出接收到的消息
+            // std::cout << "host: " << con->PeerAddr().ToIpPort() << " msg: " << buff.Peek() << std::endl;
+            // // 清空消息缓冲区
+            // buff.RetrieveAll();
+            // // 发送HTTP响应
+            // con->Send(http_response, strlen(http_response));
         });
 
         // 设置新连接回调函数
-        // server.SetNewConnectionCallback([&loop](const TcpConnectionPtr &con){
-        //         TestContextPtr context = std::make_shared<TestContext>(con);
 
-        //         context->SetTestMessageCallback([](const TcpConnectionPtr &con, const std::string &msg){
-        //             std::cout << "message: " << msg << std::endl;
-        //         });
-                
-        //         con->SetContext(kNormalContext,context);
-
-        //         // 设置写完成回调函数
-        //         con->SetWriteCompleteCallback([&loop](const TcpConnectionPtr &con){
-        //         // 输出写完成信息
-        //         std::cout << "write complete host: " << con->PeerAddr().ToIpPort() << std::endl;
-        //         // 强制关闭连接
-        //         // con->ForceClose();
-        //     });
-        // });
+        // 收到新的连接，执行回调函数，在这个回调函数里面创建了一个TestContext对象，
+        // 并设置消息解析完成后的操作：打印消息内容
         server.SetNewConnectionCallback([&loop](const TcpConnectionPtr &con){
-            con->SetWriteCompleteCallback([&loop](const TcpConnectionPtr &con){
+                TestContextPtr context = std::make_shared<TestContext>(con);
+
+                context->SetTestMessageCallback([](const TcpConnectionPtr &con, const std::string &msg){
+                    std::cout << "message: " << msg << std::endl;
+                });
+                
+                con->SetContext(kNormalContext,context);
+
+                // 设置写完成回调函数
+                con->SetWriteCompleteCallback([&loop](const TcpConnectionPtr &con){
                 // 输出写完成信息
                 std::cout << "write complete host: " << con->PeerAddr().ToIpPort() << std::endl;
-                con->ForceClose();
+                // 强制关闭连接
+                // con->ForceClose();
             });
-
         });
+
+        // 设置来了新连接该怎么做
+        // server.SetNewConnectionCallback([&loop](const TcpConnectionPtr &con){
+        //     con->SetWriteCompleteCallback([&loop](const TcpConnectionPtr &con){
+        //         // 输出写完成信息
+        //         std::cout << "write complete host: " << con->PeerAddr().ToIpPort() << std::endl;
+        //         con->ForceClose();
+        //     });
+
+        // });
         // 启动TcpServer
         server.Start();
 

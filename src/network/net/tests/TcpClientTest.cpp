@@ -66,8 +66,8 @@ int main(int argc, const char ** agrv)
             {
                 auto size = htonl(strlen(http_request));
                 // 发送数据  注释掉是为了测试超时
-                // con->Send((const char *) &size, sizeof(size));         
-                // con->Send(http_request, strlen(http_request));
+                con->Send((const char *) &size, sizeof(size));         
+                con->Send(http_request, strlen(http_request));
             }
         });
 

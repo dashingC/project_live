@@ -18,7 +18,9 @@ namespace tmms
             static string FileNameExt(const string &path );                    //返回文件名
             static string FileName(const string &path );                       //返回文件名字不带后缀
             static string Extension(const string &path );                     //返回文件后缀名
-            static std::vector<string> SplitString(const string &s, const string &delimiter);//分割字符串
+            static std::vector<string> SplitString(const string &s, const string &delimiter);//分割字符串       
+            static std::vector<std::string> SplitStringWithFSM(const string& s, const char delimiter);// 有限状态机的字符串分割
+            
 
         };
     }
